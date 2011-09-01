@@ -1,0 +1,32 @@
+#include "SDL/SDL.h"
+#include "SDL/SDL_image.h"
+#include <string>
+#include "main_func.h"
+
+using namespace std;
+
+SDL_Surface* imageLoad(string filename)
+{
+	SDL_Surface* loaded=NULL;
+	SDL_Surface* optimized=NULL;
+
+	loaded=IMG_Load(filename.c_str());
+
+	if (loaded!=NULL)
+	{
+		optimized=SDL_DisplayFormat(loaded);
+		SDL_FreeSurface (loaded);
+	}
+
+	return optimized;
+}
+
+void ApplySurface(int x, int y, SDL_Surface* source, SDL_Surface* dest)
+{
+	SDL_Rect offset;
+
+	offset.x=x;
+	offset.y=y;
+
+	SDL_BlitSurface(source, NULL, dest, &offset);
+}

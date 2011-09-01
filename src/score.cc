@@ -1,0 +1,63 @@
+/* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 4; tab-width: 4 -*- */
+/*
+ * PingPong
+ * Copyright (C)  2011 <graeme@clyde>
+ * 
+ */
+#include <iostream>
+#include "score.h"
+using namespace std;
+
+score::score()
+{
+	value=x=y=0;
+	surface=NULL;
+	font=NULL;
+}
+
+score::score(TTF_Font* inFont, SDL_Color inColour, int inX, int inY)
+{
+	x=inX;
+	y=inY;
+	value = 0;
+	surface=NULL;
+	font=inFont;
+	textColour=inColour;
+}
+
+void score::incrementScore()
+{
+	value++;
+	sprintf(strvalue,"%d",value);
+	genSurface();
+}
+
+void score::resetScore()
+{
+	value=0;
+	sprintf(strvalue,"%d",value);
+}
+
+void score::genSurface()
+{
+	surface=TTF_RenderText_Solid (font,strvalue,textColour);
+}
+
+void score::apply(SDL_Surface* dest)
+{
+	ApplySurface (x,y,surface,dest);
+}
+
+void score::set(TTF_Font* inFont, SDL_Color inColour, int inX, int inY)
+{
+	x=inX;
+	y=inY;
+	resetScore();
+	font=inFont;
+	textColour=inColour;
+}
+
+int score::getScore()
+{
+	return value;
+}
